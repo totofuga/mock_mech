@@ -79,14 +79,16 @@ sub _make_request {
     my $uri = $req->uri();
 
     if( exists($self->{stub_requests}->{$uri}) ) {
-        my $test = HTTP::Response->new(
+        my $res = HTTP::Response->new(
             200, 
             undef, 
             [ 'Content-Type' => 'text/html' ], 
             $self->{stub_requests}->{$uri}
         );
 
-        return $test;
+        $res->request($req);
+
+        return $res;
     }
 
     die "[ $uri ] is not defined url prease set stub_request by ". __PACKAGE__ ;

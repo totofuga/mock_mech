@@ -5,6 +5,7 @@ use strict;
 use warnings FATAL => 'all';
 
 use HTTP::Response;
+use Path::Class;
 
 use base qw(WWW::Mechanize);
 
@@ -46,9 +47,21 @@ if you don't export anything, such as for a purely object-oriented module.
 sub new {
     my ($class, %params) = @_;
 
+
     my $stub_requests = {};
     if ( exists $params{stub_requests} ) {
         $stub_requests = delete $params{stub_requests};
+
+        foreach ( values $stub_requests ) {
+
+            if ( ref $_ eq 'SCALAR' ) {
+                # do_nothing;
+            } elsif ( ! ref $_ ) {
+                $_ = file($_)->slurp();
+            } else {
+                die "stub_request value is not valid type\n";
+            }
+        }
     }
 
     my $self = $class->SUPER::new( %params );

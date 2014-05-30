@@ -22,8 +22,8 @@ use constant {
 
 my $mock_mech = Test::Mock::WWW::Mechanize->new( 
     stub_requests => { 
-        URL_TEST01()->{url} => do{ scalar file(URL_TEST01()->{path})->slurp()},  
-        URL_TEST02()->{url} => do{ scalar file(URL_TEST02()->{path})->slurp()},  
+        URL_TEST01()->{url} => \do{ scalar file(URL_TEST01()->{path})->slurp()},  
+        URL_TEST02()->{url} => URL_TEST02()->{path},  
     },
 );
 
